@@ -8,7 +8,10 @@ const {
 const Koa = require('koa');
 const app = new Koa();
 const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
 const mongoose = require('mongoose');
+
+app.use(bodyParser());
 
 const api = require('api');
 const db = require('db');

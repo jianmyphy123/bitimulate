@@ -11,7 +11,6 @@ const PageTemplate = ({header, children, responsive}) => {
       <header>
         {header}
       </header>
-      { header }
 
       <main className={cx('content', {
         'has-header': header,
