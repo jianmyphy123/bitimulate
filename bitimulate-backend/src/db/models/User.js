@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const token = require('lib/token');
 const { Schema } = mongoose;
 const { PASSWORD_HASH_KEY: secret } = process.env;
 
@@ -59,6 +60,21 @@ User.statics.localRegister = async function({ displayName, email, password }) {
 
   return user.save();
 
+};
+
+User.methods.validatePassword = function(password) {
+  const hashed = hash(password);
+  return this.password === hashed;
+};
+
+User.methods.generateToken = function() {
+  const { _id, displayName } = this;
+  return token.generateToken({
+    user: {
+      _id,
+      displayName
+    }
+  }, 'user');
 };
 
 module.exports = mongoose.model('User', User);
