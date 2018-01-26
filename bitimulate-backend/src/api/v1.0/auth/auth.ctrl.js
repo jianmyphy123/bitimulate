@@ -37,7 +37,11 @@ exports.localRegister = async (ctx) => {
       displayName, email, password
     });
 
-    ctx.body = user;
+    ctx.body = {
+      displayName,
+      _id: user._id,
+      metaInfo: user.metaInfo
+    };
 
     const accessToken = await user.generateToken();
     // configure accessToken to httpOnly cookie
@@ -89,8 +93,43 @@ exports.localLogin = async (ctx) => {
       maxAge: 1000 * 60 * 60 * 24 * 7
     });
 
+    const { displayName, _id, metaInfo } = user;
+    ctx.body = {
+      displayName,
+      _id,
+      metaInfo
+    };
+
   } catch(e) {
     ctx.throw(500);
   }
 
 }
+
+exports.check = async (ctx) => {
+  const { user } = ctx.request;
+
+  if(!user) {
+    ctx.status = 401;
+    return;
+  }
+
+  try {
+    const exists = await User.findById(user._id);
+    if(!exists) {
+      // invalid user
+      ctx.cookies.set('access_token', null, {
+        maxAge: 0,
+        httpOnly: true
+      });
+      ctx.status = 401;
+      return;
+    }
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+
+  ctx.body = {
+    user
+  };
+};
