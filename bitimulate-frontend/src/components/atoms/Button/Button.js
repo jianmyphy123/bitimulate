@@ -4,14 +4,14 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-const Button = ({children, roundCorner, invert, className}) => {
+const Button = ({children, roundCorner, invert, className, ...rest}) => {
   return (
     <div className={
         cx('button', {
           'round-corner': roundCorner,
           invert
         }, className)
-      }>
+      } {...rest}>
       {children}
     </div>
   );

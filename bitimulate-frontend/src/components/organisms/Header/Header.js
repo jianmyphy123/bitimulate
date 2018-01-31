@@ -5,7 +5,7 @@ import { Logo, HeaderNav, Button } from 'components';
 
 const cx = classNames.bind(styles);
 
-const Header = () => {
+const Header = ({onLoginButtonClick}) => {
   return (
     <div className={cx('header')}>
       <div className={cx('responsive')}>
@@ -14,7 +14,13 @@ const Header = () => {
         </div>
         <div className={cx('right-side')}>
           <HeaderNav />
-          <Button invert className={cx('login-button')}>Login</Button>
+          <Button
+            invert
+            className={cx('login-button')}
+            onClick={onLoginButtonClick}
+          >
+            Login
+          </Button>
         </div>
       </div>
     </div>

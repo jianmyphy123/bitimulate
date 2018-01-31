@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Header, PageTemplate, PolyBackground, Block } from 'components';
+import { PageTemplate, PolyBackground, Block } from 'components';
+import { HeaderContainer } from 'containers';
 
 export class HomePage extends Component {
   render() {
     return (
       <PageTemplate
-        header={<Header />}
+        header={<HeaderContainer />}
       >
         <PolyBackground>
           <Block center shadow>
